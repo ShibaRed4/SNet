@@ -1,5 +1,9 @@
+<p align="center">
+  <img src="https://github.com/ShibaRed4/SNet/blob/main/.github/icon.png" alt="Qualitize Banner" />
+</p>
+
+
 <div align="center">
-  <h1 style="font-size: 10px; font-weight: bold">SNet</h1>
 
   <a href="">![LUA BABY](https://img.shields.io/badge/Lua-2C2D72?style=for-the-badge&logo=lua&logoColor=white)</a>
   <a href="">![ROBLOX](https://img.shields.io/badge/ROBLOX-FF0000?style=for-the-badge&logo=roblox&logoColor=white)</a>
@@ -7,7 +11,84 @@
 
 </div>
 
+<h1 align="center" style="font-size: 100px; font-weight: bold">SNet</h1>
+
+
 
 <div align="center">
-  <p>A simple module that allows you to create network events within your modules. Whether it'd be server-client or client-server, this module can do it all!</p>
+  <h2>A simple module that allows you to create network events within your modules. Whether it'd be server-client or client-server, this module can do it all!</h2>
 </div>
+
+# Usage: 
+
+## Main Server Script:
+
+```
+local SNet = require(path.to.SNet).new()
+local ExampleModule = require(path.to.ExampleModule)
+
+-- SNet --
+
+SNet:Rollup({
+  -- List of ModuleScripts goes here --
+  ExampleModule.Package()
+})
+
+SNet:Compose()
+```
+
+## Example Module Script:
+
+```
+local ExampleModule = {}
+ExampleModule.__index = ExampleModule
+
+function ExampleModule.new()
+    local self = setmetatable({}, ExampleModule)
+    return self
+end
+
+function ExampleModule.Package()
+  return require(script.EmittableFunctions)
+end
+```
+
+## Example EmittableFunctions (This goes inside of your module script):
+
+```
+local EmittableFunctions = {
+	Server = {
+		Events = {
+			["TestServerEvent"] = function(player, ...) -- "TestServerEvent" will be known as the "eventName"
+			end
+		},
+		Callbacks = {
+			["TestServerCallback"] = function(player, ...)
+				return "Hello World"
+			end
+		},
+	},
+	Client = {
+		Events = {
+			["TestClientEvent"] = function(...)
+				
+			end,
+		},
+		Callbacks = {
+			["TestClientCallback"] = function(...)
+				return "Hello World from Client!"
+			end,
+		}
+	},
+	Name = script.Parent.Name -- "This will be youir "hostName"
+}
+
+return EmittableFunctions
+```
+
+# Methods:
+- SNet:EmitCallback(hostName: string, callbackName: string, ...)
+- SNet:EmitEvent(hostName: string, eventName: string, ...)
+- SNet:EmitClientEvent(player: Player, hostName: string, eventName: string, ...)
+- SNet:EmitClientCallback(player: Player, hostName: string, eventName: string, ...)
+- SNet:EmitAllClientEvent(hostName: string, eventName: string, ...)
