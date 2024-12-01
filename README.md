@@ -92,3 +92,8 @@ return EmittableFunctions
 - SNet:EmitClientEvent(player: Player, hostName: string, eventName: string, ...)
 - SNet:EmitClientCallback(player: Player, hostName: string, eventName: string, ...)
 - SNet:EmitAllClientEvent(hostName: string, eventName: string, ...)
+
+
+# Why should I use this?
+
+So you don't have multiple server scripts doing `RemoteEvent.OnServerEvent:Connect(function(player) end)` over and over again. Same thing with ClientSide events, it allows for better organization of your modules and logic. So instead of calling a (probably horribly named) remote event for a specific task, make a module that handles that task and other similar tasks, and when you need something done over the network, you can call methods that do it for you.
