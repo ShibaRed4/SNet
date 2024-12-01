@@ -29,3 +29,7 @@ end
 function StateManager:GetState()
 	return SNet:EmitCallback(script.Name, "GetState")
 end
+
+function StateManager.Package()
+	return require(script.EmittableFunctions)
+end
